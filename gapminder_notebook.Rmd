@@ -46,6 +46,8 @@ ggplotly(p)
 
 # Todays lesson - Oct. 19, 2017
 
+# This is the second day of the course
+
 # Making your own functions
 
 If you are repeating yourself in your code, you may be able to solve that problem by making your own function!
@@ -81,6 +83,55 @@ year_country_gdp_euro <- gapminder %>%
 # Data manipulation with `tidyr`
 
 R likes to have 'long' format data where every row is an observation and you have a single column for 'observations' the others serve to identify that observation. (exceptions apply when you have multiple types of observations) To switch back and forth from 'wide' (how we typically enter data in a spreadsheet) to 'long' use `tidyr`
+
+```{r}
+euro_countries <- gapminder %>%
+  filter(continent=="Europe") %>%
+  ggplot(aes(x=year,y=lifeExp,color=country)) +
+  geom_line()+
+  facet_wrap(~country)
+
+euro_countries
+ggsave("euro.png")
+write.csv(mean_gdp_percountry,"processed/mean_gdp_percountry.csv")
+```
+
+
+```{r}
+download.file("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/data/gapminder_wide.csv", destfile = "data/gapminder_wide.csv")
+gapminder_wide <- read.csv("data/gapminder_wide.csv")
+View(gapminder_wide)
+
+gap_long <- gapminder_wide %>%
+  gather(obstype_year,
+         obs_values,
+         starts_with('pop'),
+         starts_with('lifeExp'),
+         starts_with('gdpPercap')
+)
+head(gap_long)
+```
+
+Separate the obs_type column
+
+```{r}
+gap_normal <- gap_long %>%
+  separate(obstype_year,into=c("obs_type","obstype_year"),sep="_")
+  
+head(gap_normal) %>%
+  spread(obs_type, obs_values)
+
+```
+
+
+```{r}
+gap_normal <- gap_normal %>%
+  arrange(country,continent,year)
+  all.equal(gapminder,gap,normal)
+```
+
+
+
 
 
 
