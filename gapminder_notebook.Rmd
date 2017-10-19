@@ -1,0 +1,86 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    toc: yes
+    toc_float: true
+---
+
+# Title level 1
+
+## Title level 2
+
+**bold**
+
+*italics*
+
+Load packages
+```{r}
+library(tidyverse)
+library(plotly)
+source("functions.R")
+```
+
+I download the file and loaded it into R
+```{r}
+download.file("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder-FiveYearData.csv", destfile = "data/gapminder-FiveYearData.csv")
+
+gapminder <- read.csv("data/gapminder-FiveYearData.csv")
+```
+
+
+
+I wonder, what the life expectancy over the years
+
+```{r}
+p <- ggplot(data=gapminder,aes(x=year,y=lifeExp)) + geom_point()
+
+p
+```
+
+Let's see an interactive version
+
+```{r}
+ggplotly(p)
+```
+
+# Todays lesson - Oct. 19, 2017
+
+# Making your own functions
+
+If you are repeating yourself in your code, you may be able to solve that problem by making your own function!
+
+```{r}
+
+
+cars <- c(3,4,5,6,7,10)
+se(cars)
+
+```
+
+# Data manipulation with `dplyr`
+
+You will likely want to get subsections of your dataframe and/or calculate means of a variable for a certain subsection, `dplyr` is your friend!
+
+Explored Select
+```{r}
+gapminder <- read.csv("data/gapminder-FiveYearData.csv")
+year_country_gdp <- select(gapminder,year,country,gdpPercap)
+year_country_gdp <- select(gapminder,-pop,-continent,-lifeExp)
+names(year_country_gdp)
+```
+
+Explore Filter
+```{r}
+year_country_gdp_euro <- gapminder %>%
+  filter(continent=="Europe") %>%
+  select(year,country,gdpPercap) 
+```
+
+
+# Data manipulation with `tidyr`
+
+R likes to have 'long' format data where every row is an observation and you have a single column for 'observations' the others serve to identify that observation. (exceptions apply when you have multiple types of observations) To switch back and forth from 'wide' (how we typically enter data in a spreadsheet) to 'long' use `tidyr`
+
+
+
