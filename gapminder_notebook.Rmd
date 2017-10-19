@@ -1,3 +1,7 @@
+This is from the Oct 19, 2017 course
+This is a line added for a Github test
+
+
 ---
 title: "R Notebook"
 output:
@@ -84,18 +88,6 @@ year_country_gdp_euro <- gapminder %>%
 
 R likes to have 'long' format data where every row is an observation and you have a single column for 'observations' the others serve to identify that observation. (exceptions apply when you have multiple types of observations) To switch back and forth from 'wide' (how we typically enter data in a spreadsheet) to 'long' use `tidyr`
 
-```{r}
-euro_countries <- gapminder %>%
-  filter(continent=="Europe") %>%
-  ggplot(aes(x=year,y=lifeExp,color=country)) +
-  geom_line()+
-  facet_wrap(~country)
-
-euro_countries
-ggsave("euro.png")
-write.csv(mean_gdp_percountry,"processed/mean_gdp_percountry.csv")
-```
-
 
 ```{r}
 download.file("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/data/gapminder_wide.csv", destfile = "data/gapminder_wide.csv")
@@ -124,11 +116,7 @@ head(gap_normal) %>%
 ```
 
 
-```{r}
-gap_normal <- gap_normal %>%
-  arrange(country,continent,year)
-  all.equal(gapminder,gap,normal)
-```
+
 
 
 
